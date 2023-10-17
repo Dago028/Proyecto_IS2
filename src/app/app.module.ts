@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {DialogModule} from '@angular/cdk/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,7 @@ import { BoardsComponent } from './pages/boards/boards.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DetboardComponent } from './pages/detboard/detboard.component';
+import { DialogosComponent } from './components/dialogos/dialogos.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { DetboardComponent } from './pages/detboard/detboard.component';
     BtnComponent,
     BoardsComponent,
     NavbarComponent,
-    DetboardComponent
+    DetboardComponent,
+    DialogosComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import { DetboardComponent } from './pages/detboard/detboard.component';
     OverlayModule,
     FontAwesomeModule,
     CdkAccordionModule,
-    DragDropModule
+    DragDropModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
-import { ToDo } from 'src/app/modelos/todo.model'; 
+import { ToDo, Columnas } from 'src/app/modelos/todo.model'; 
+
+import { Dialog } from '@angular/cdk/dialog';
+
+import { DialogosComponent } from '../../components/dialogos/dialogos.component';
 
 @Component({
   selector: 'app-detboard',
@@ -10,38 +14,53 @@ import { ToDo } from 'src/app/modelos/todo.model';
   styleUrls: ['./detboard.css']
 })
 export class DetboardComponent implements OnInit {
+  
+  columnas: Columnas [] = [
+    {
+      titulo: 'Por hacer',
+      todos: [
+        {
+          id: '1',
+          titulo: 'Realizar el formulario de Clientes'
+        },
+        {
+          id: '2',
+          titulo: 'Colocar los campos de texto'
+        },
+      ]
+    },
+    {
+      titulo: 'En proceso',
+      todos: [
+        {
+          id: '3',
+          titulo: 'Validar los campos'
+        }
+      ]
+    },
+    {
+      titulo: 'Hecho',
+      todos: [
+        {
+          id: '4',
+          titulo: 'Hacer pruebas al formulario de clientes'
+        }
+      ]
+    }
+  ];
 
   //To Do
-  todos : ToDo [] = [
-    {
-      id: '1',
-      titulo: 'Realizar el formulario de Clientes'
-    },
-    {
-      id: '2',
-      titulo: 'Colocar los campos de texto'
-    },
-  ];
+  todos : ToDo [] = [];
 
 //Doing
-  doing : ToDo [] = [
-    {
-      id: '3',
-      titulo: 'Validar los campos'
-    }
-  ];
+  doing : ToDo [] = [];
 
 //Done
-  done : ToDo [] = [
-    {
-      id: '4',
-      titulo: 'Hacer pruebas al formulario de clientes'
-    }
-  ];
+  done : ToDo [] = [];
 
-  constructor () {
-
-  }
+  constructor (
+    private dialog: Dialog
+  ) { }
 
   ngOnInit(): void {
     
@@ -54,5 +73,26 @@ export class DetboardComponent implements OnInit {
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     };
-  }  
+  }
+  
+  agregarColumna() {
+    this.columnas.push ({
+      titulo: 'Nueva columna',
+      todos: [],
+    });
+  }
+
+  abrirDialogo( todo: ToDo) {
+    const dialogRef = this.dialog.open(
+      DialogosComponent, { 
+      minWidth: '300px',
+      maxWidth: '50%',
+      data: {
+        todo: todo,
+      }
+    });
+    dialogRef.closed.subscribe(output => {
+      console.log(output);
+    });
+  }
 }

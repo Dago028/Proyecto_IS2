@@ -4,3 +4,7 @@ export interface ToDo {
     titulo: string;
 }
 
+export interface Columnas {
+    titulo: string;
+    todos: ToDo [];
+}
