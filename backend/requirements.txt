@@ -1,3 +1,5 @@
 flask
 flask-login
 Flask-wtf
+flask-sqlalchemy
+psycopg2
