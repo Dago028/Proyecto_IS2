@@ -13,47 +13,33 @@
         <a class="block py-1 px-3"><fa-icon [icon]="faWaveSquare"></fa-icon> Home</a>
       </li>
     </ul>
-    
+
     <cdk-accordion>
       <cdk-accordion-item #accordionMenu="cdkAccordionItem">
-        <button class="w-full py-1 px-2 flex justify-between items-center" type="button" (click)="accordionMenu.toggle()">
+        <button class="w-full py-1 px-2 flex justify-between items-center" type="button"
+          (click)="accordionMenu.toggle()">
           My workspace
           <fa-icon [icon]="accordionMenu.expanded ? faAngleUp : faAngleDown "></fa-icon>
         </button>
         <div [style.display]="accordionMenu.expanded ? '' : 'none' ">
           <ul class="ml-2 flex flex-col text-sm text-gray-700">
             <li>
-              <a class="block py-1 px-3"
-                ><fa-icon [icon]="faTrello"></fa-icon> Tableros</a
-              >
+              <a class="block py-1 px-3"><fa-icon [icon]="faTrello"></fa-icon> Tableros</a>
             </li>
             <li>
-              <a class="block py-1 px-3"
-                ><fa-icon [icon]="faHeart"></fa-icon> Highlights</a
-              >
+              <a class="block py-1 px-3"><fa-icon [icon]="faUsers"></fa-icon> Miembros</a>
             </li>
             <li>
-              <a class="block py-1 px-3"
-                ><fa-icon [icon]="faBorderAll"></fa-icon> Vistas</a
-              >
-            </li>
-            <li>
-              <a class="block py-1 px-3"
-                ><fa-icon [icon]="faUsers"></fa-icon> Miembros</a
-              >
-            </li>
-            <li>
-              <a class="block py-1 px-3"
-                ><fa-icon [icon]="faGear"></fa-icon> Configuraciones</a
-              >
+              <a class="block py-1 px-3"><fa-icon [icon]="faGear"></fa-icon> Configuraciones</a>
             </li>
           </ul>
         </div>
       </cdk-accordion-item>
     </cdk-accordion>
-    
-    <cdk-accordion>
-      <cdk-accordion-item #accordionItem= "cdkAccordionItem" *ngFor="let item of items">
+
+    <!--
+      <cdk-accordion>
+      <cdk-accordion-item #accordionItem="cdkAccordionItem" *ngFor="let item of items">
         <button class="w-full text-left" type="button" (click)="accordionItem.toggle()"> {{item.label}} </button>
         <div [style.display]="accordionItem.expanded ? '' : 'none' ">
           <ul>
@@ -62,6 +48,7 @@
         </div>
       </cdk-accordion-item>
     </cdk-accordion>
+  -->
 
   </div>
   <div class="w-full">

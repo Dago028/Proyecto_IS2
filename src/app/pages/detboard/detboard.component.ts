@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-import { ToDo, Columnas } from 'src/app/modelos/todo.model'; 
+import { ToDo, Columnas } from 'src/app/modelos/todo.model';
 
 import { Dialog } from '@angular/cdk/dialog';
 
@@ -14,8 +14,9 @@ import { DialogosComponent } from '../../components/dialogos/dialogos.component'
   styleUrls: ['./detboard.css']
 })
 export class DetboardComponent implements OnInit {
-  
-  columnas: Columnas [] = [
+  cantidadColumnas = 0;
+  estadoColumnas = true;
+  columnas: Columnas[] = [
     {
       titulo: 'Por hacer',
       todos: [
@@ -50,41 +51,49 @@ export class DetboardComponent implements OnInit {
   ];
 
   //To Do
-  todos : ToDo [] = [];
+  todos: ToDo[] = [];
 
-//Doing
-  doing : ToDo [] = [];
+  //Doing
+  doing: ToDo[] = [];
 
-//Done
-  done : ToDo [] = [];
+  //Done
+  done: ToDo[] = [];
 
-  constructor (
+  constructor(
     private dialog: Dialog
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
-  drop(event: CdkDragDrop<ToDo[]> ) {
+  drop(event: CdkDragDrop<ToDo[]>) {
 
-    if ( event.previousContainer === event.container ){
+    if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex); //mover el elemento dentro de un mismo array
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     };
   }
-  
+
   agregarColumna() {
-    this.columnas.push ({
-      titulo: 'Nueva columna',
-      todos: [],
-    });
+    this.cantidadColumnas = this.columnas.length + 1;
+    console.log(this.cantidadColumnas);
+    if (this.cantidadColumnas <= 6) {
+      this.columnas.push({
+        titulo: 'Nueva columna',
+        todos: [],
+      });
+      this.estadoColumnas = true;
+    } else {
+      this.estadoColumnas = false;
+    }
+
   }
 
-  abrirDialogo( todo: ToDo) {
+  abrirDialogo(todo: ToDo) {
     const dialogRef = this.dialog.open(
-      DialogosComponent, { 
+      DialogosComponent, {
       minWidth: '300px',
       maxWidth: '50%',
       data: {
