@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class TareasService {
+  //API: string = 'http://192.168.100.10/serverapi/tareas.php';
   API: string = 'http://localhost/serverapi/tareas.php';
   constructor(private http: HttpClient) { }
 
