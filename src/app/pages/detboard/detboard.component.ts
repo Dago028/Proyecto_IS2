@@ -7,6 +7,8 @@ import { ToDo, Columnas } from 'src/app/modelos/todo.model';
 import { Dialog } from '@angular/cdk/dialog';
 
 import { DialogosComponent } from '../../components/dialogos/dialogos.component';
+import { TareasService } from 'src/app/servicios/tareas.service';
+import { EstadosService } from 'src/app/servicios/estados.service';
 
 @Component({
   selector: 'app-detboard',
@@ -16,39 +18,45 @@ import { DialogosComponent } from '../../components/dialogos/dialogos.component'
 export class DetboardComponent implements OnInit {
   cantidadColumnas = 0;
   estadoColumnas = true;
-  columnas: Columnas[] = [
-    {
-      titulo: 'Por hacer',
-      todos: [
-        {
-          id: '1',
-          titulo: 'Realizar el formulario de Clientes'
-        },
-        {
-          id: '2',
-          titulo: 'Colocar los campos de texto'
-        },
-      ]
-    },
-    {
-      titulo: 'En proceso',
-      todos: [
-        {
-          id: '3',
-          titulo: 'Validar los campos'
-        }
-      ]
-    },
-    {
-      titulo: 'Hecho',
-      todos: [
-        {
-          id: '4',
-          titulo: 'Hacer pruebas al formulario de clientes'
-        }
-      ]
-    }
-  ];
+
+  listaTareas: any;
+  listaColumnas: any;
+
+  columnas: Columnas[] = [];
+
+  //columnas: Columnas[] = [
+  // {
+  //   titulo: 'Por hacer',
+  //   todos: [
+  //     {
+  //       id: '1',
+  //       titulo: 'Realizar el formulario de Clientes'
+  //     },
+  //     {
+  //       id: '2',
+  //       titulo: 'Colocar los campos de texto'
+  //     }
+  //   ]
+  // },
+  // {
+  //   titulo: 'En proceso',
+  //   todos: [
+  //     {
+  //       id: '3',
+  //       titulo: 'Validar los campos'
+  //     }
+  //   ]
+  // },
+  // {
+  //   titulo: 'Hecho',
+  //   todos: [
+  //     {
+  //       id: '4',
+  //       titulo: 'Hacer pruebas al formulario de clientes'
+  //     }
+  //   ]
+  // }
+  //];
 
   //To Do
   todos: ToDo[] = [];
@@ -60,11 +68,13 @@ export class DetboardComponent implements OnInit {
   done: ToDo[] = [];
 
   constructor(
-    private dialog: Dialog
+    private dialog: Dialog,
+    private _tareasService: TareasService,
+    private _estadoService: EstadosService
   ) { }
 
   ngOnInit(): void {
-
+    this.cargarTareas();
   }
 
   drop(event: CdkDragDrop<ToDo[]>) {
@@ -88,7 +98,6 @@ export class DetboardComponent implements OnInit {
     } else {
       this.estadoColumnas = false;
     }
-
   }
 
   abrirDialogo(todo: ToDo) {
@@ -104,4 +113,20 @@ export class DetboardComponent implements OnInit {
       console.log(output);
     });
   }
+
+  cargarTareas() {
+    this._tareasService;
+    this._estadoService;
+    this._estadoService.getEstadosPorUsuario().subscribe(respuesta => {
+      console.log(respuesta);
+      this.listaColumnas = respuesta;
+      this.columnas = this.listaColumnas;
+    });
+    this._tareasService.getTareas().subscribe(respuesta => {
+      console.log(respuesta);
+      this.listaTareas = respuesta;
+    });
+  }
+
+
 }

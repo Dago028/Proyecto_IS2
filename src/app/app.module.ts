@@ -14,6 +14,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DetboardComponent } from './pages/detboard/detboard.component';
 import { DialogosComponent } from './components/dialogos/dialogos.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DialogosComponent } from './components/dialogos/dialogos.component';
     FontAwesomeModule,
     CdkAccordionModule,
     DragDropModule,
-    DialogModule
+    DialogModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
