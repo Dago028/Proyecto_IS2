@@ -11,7 +11,7 @@ $servidor = "localhost"; $usuario = "root"; $contrasenia = ""; $nombreBaseDatos 
 $conexionBD = new mysqli($servidor, $usuario, $contrasenia, $nombreBaseDatos);
 
 // Consulta obtiene los usuarios
-if (isset($_GET["obtenerTareas"])){
+if (isset($_GET["obtenerTareasPorUser"])){
     $sqlTareas = mysqli_query($conexionBD,"SELECT tareas.id_tarea AS id_tarea, tareas.nombre_tarea AS nombre_tarea, tareas.descripcion_tarea AS descripcion_tarea, tareas.fecha_creacion_tarea AS fecha_creacion_tarea, tareas.fecha_vencimiento AS fecha_vencimiento, tareas.id_estado AS id_estado, tareas.etiqueta AS etiqueta 
     FROM tareas, tableros, espacios_trabajo, estados_tablero, usuarios 
     WHERE usuarios.id_usuario=espacios_trabajo.id_usuario 

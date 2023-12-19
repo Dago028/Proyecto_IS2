@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 import { ToDo, Columnas } from 'src/app/modelos/todo.model';
 
@@ -13,11 +17,13 @@ import { EstadosService } from 'src/app/servicios/estados.service';
 @Component({
   selector: 'app-detboard',
   templateUrl: './detboard.component.html',
-  styleUrls: ['./detboard.css']
+  styleUrls: ['./detboard.css'],
 })
 export class DetboardComponent implements OnInit {
   cantidadColumnas = 0;
   estadoColumnas = true;
+
+  idUser: number = Number(localStorage.getItem('idUser'));
 
   listaTareas: any;
   listaColumnas: any;
@@ -71,19 +77,27 @@ export class DetboardComponent implements OnInit {
     private dialog: Dialog,
     private _tareasService: TareasService,
     private _estadoService: EstadosService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.cargarTareas();
+    this.cargarTareas(this.idUser);
   }
 
   drop(event: CdkDragDrop<ToDo[]>) {
-
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex); //mover el elemento dentro de un mismo array
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      ); //mover el elemento dentro de un mismo array
     } else {
-      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-    };
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
   }
 
   agregarColumna() {
@@ -101,32 +115,31 @@ export class DetboardComponent implements OnInit {
   }
 
   abrirDialogo(todo: ToDo) {
-    const dialogRef = this.dialog.open(
-      DialogosComponent, {
+    const dialogRef = this.dialog.open(DialogosComponent, {
       minWidth: '300px',
       maxWidth: '50%',
       data: {
         todo: todo,
-      }
+      },
     });
-    dialogRef.closed.subscribe(output => {
+    dialogRef.closed.subscribe((output) => {
       console.log(output);
     });
   }
 
-  cargarTareas() {
+  cargarTareas(id_usuario: number) {
     this._tareasService;
     this._estadoService;
-    this._estadoService.getEstadosPorUsuario().subscribe(respuesta => {
-      console.log(respuesta);
-      this.listaColumnas = respuesta;
-      this.columnas = this.listaColumnas;
-    });
-    this._tareasService.getTareas().subscribe(respuesta => {
+    this._estadoService
+      .getEstadosPorUsuario(id_usuario)
+      .subscribe((respuesta) => {
+        console.log(respuesta);
+        this.listaColumnas = respuesta;
+        this.columnas = this.listaColumnas;
+      });
+    this._tareasService.getTareas(id_usuario).subscribe((respuesta) => {
       console.log(respuesta);
       this.listaTareas = respuesta;
     });
   }
-
-
 }

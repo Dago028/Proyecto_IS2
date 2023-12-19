@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import {OverlayModule} from '@angular/cdk/overlay';
-import {CdkAccordionModule} from '@angular/cdk/accordion';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {DialogModule} from '@angular/cdk/dialog';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DialogModule } from '@angular/cdk/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +18,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DetboardComponent } from './pages/detboard/detboard.component';
 import { DialogosComponent } from './components/dialogos/dialogos.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
     BoardsComponent,
     NavbarComponent,
     DetboardComponent,
-    DialogosComponent
+    DialogosComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,9 +38,13 @@ import { HttpClientModule } from '@angular/common/http';
     CdkAccordionModule,
     DragDropModule,
     DialogModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
