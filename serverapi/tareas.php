@@ -27,19 +27,8 @@ if (isset($_GET["obtenerTareasPorUser"])){
     else{  echo json_encode(["Conectado al servidor"=>0]); }
 }
 
-if (isset($_GET["obtenerTareasConEstados"])){
-    $sqlTareas = mysqli_query($conexionBD,"SELECT estados_tablero.id_estado AS id_estado, 
-    estados_tablero.nombre_estado AS nombre_estado, estados_tablero.posicion_estado AS posicion_estado, 
-    tareas.id_tarea AS id, tareas.nombre_tarea AS titulo, 
-    tareas.descripcion_tarea AS descripcion_tarea, tareas.fecha_creacion_tarea AS fecha_creacion_tarea, 
-    tareas.fecha_vencimiento AS fecha_vencimiento, tareas.id_estado AS id_estado, 
-    tareas.etiqueta AS etiqueta 
-    FROM tareas, tableros, espacios_trabajo, estados_tablero, usuarios 
-    WHERE usuarios.id_usuario=espacios_trabajo.id_usuario 
-    AND espacios_trabajo.id_espacio_trabajo=tableros.id_espacio_trabajo 
-    AND tableros.id_tablero=estados_tablero.id_tablero 
-    AND estados_tablero.id_estado=tareas.id_estado 
-    AND usuarios.id_usuario=2");
+if (isset($_GET["obtenerTareasPorId"])){
+    $sqlTareas = mysqli_query($conexionBD,"SELECT id_tarea AS id,  nombre_tarea AS titulo FROM tareas WHERE id_estado=".$_GET["obtenerTareasPorId"]);
     if(mysqli_num_rows($sqlTareas) > 0){
         $tareas = mysqli_fetch_all($sqlTareas,MYSQLI_ASSOC);
         echo json_encode($tareas);

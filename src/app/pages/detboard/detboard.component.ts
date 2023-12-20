@@ -129,17 +129,33 @@ export class DetboardComponent implements OnInit {
 
   cargarTareas(id_usuario: number) {
     this._tareasService;
-    this._estadoService;
     this._estadoService
       .getEstadosPorUsuario(id_usuario)
       .subscribe((respuesta) => {
         console.log(respuesta);
+
         this.listaColumnas = respuesta;
-        this.columnas = this.listaColumnas;
+        for (let [index, col] of this.listaColumnas.entries()) {
+          let columnaTemp: Columnas = {
+            titulo: '',
+            todos: [],
+          };
+          columnaTemp.titulo = col.titulo;
+          console.log(index, col.id_estado);
+          console.log(col.titulo);
+          this._tareasService
+            .getTareasPorId(col.id_estado)
+            .subscribe((respuesta) => {
+              console.log(respuesta);
+              this.listaTareas = respuesta;
+              for (let [inde, tarea] of this.listaTareas.entries()) {
+                columnaTemp.todos.push(tarea);
+                console.log(index, col.id_estado);
+              }
+            });
+          this.columnas.push(columnaTemp);
+        }
+        console.log(this.columnas);
       });
-    this._tareasService.getTareas(id_usuario).subscribe((respuesta) => {
-      console.log(respuesta);
-      this.listaTareas = respuesta;
-    });
   }
 }

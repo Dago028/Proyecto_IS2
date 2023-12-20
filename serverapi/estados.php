@@ -12,10 +12,7 @@ $conexionBD = new mysqli($servidor, $usuario, $contrasenia, $nombreBaseDatos);
 
 // Consulta obtiene los usuarios
 if (isset($_GET["obtenerEstadosPorUsuario"])){
-    $sqlEstados = mysqli_query($conexionBD,"SELECT estados_tablero.id_estado AS id_estado, 
-    estados_tablero.nombre_estado AS titulo, estados_tablero.posicion_estado AS posicion_estado, 
-    estados_tablero.id_tablero AS id_tablero
-    FROM tableros, espacios_trabajo, estados_tablero, usuarios 
+    $sqlEstados = mysqli_query($conexionBD,"SELECT estados_tablero.id_estado AS id_estado, estados_tablero.nombre_estado AS titulo, estados_tablero.posicion_estado AS posicion, estados_tablero.id_tablero AS id_tablero FROM tableros, espacios_trabajo, estados_tablero, usuarios 
     WHERE usuarios.id_usuario=espacios_trabajo.id_usuario 
     AND espacios_trabajo.id_espacio_trabajo=tableros.id_espacio_trabajo 
     AND tableros.id_tablero=estados_tablero.id_tablero
