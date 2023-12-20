@@ -13,6 +13,8 @@ import { Dialog } from '@angular/cdk/dialog';
 import { DialogosComponent } from '../../components/dialogos/dialogos.component';
 import { TareasService } from 'src/app/servicios/tareas.service';
 import { EstadosService } from 'src/app/servicios/estados.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Tarea } from 'src/app/modelos/tarea.model';
 
 @Component({
   selector: 'app-detboard',
@@ -20,6 +22,8 @@ import { EstadosService } from 'src/app/servicios/estados.service';
   styleUrls: ['./detboard.css'],
 })
 export class DetboardComponent implements OnInit {
+  form: FormGroup;
+
   cantidadColumnas = 0;
   estadoColumnas = true;
 
@@ -76,11 +80,33 @@ export class DetboardComponent implements OnInit {
   constructor(
     private dialog: Dialog,
     private _tareasService: TareasService,
-    private _estadoService: EstadosService
-  ) {}
+    private _estadoService: EstadosService,
+    private fb: FormBuilder
+  ) {
+    this.form = this.fb.group({
+      nombre_tarea: ['', Validators.required],
+      descripcion: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.cargarTareas(this.idUser);
+  }
+
+  guardarTarea(): void {
+    this.form.markAllAsTouched();
+    console.log(this.form.value.descripcion);
+    let tarea: Tarea = {
+      id_tarea: 0,
+      nombre_tarea: '',
+      descripcion_tarea: '',
+      id_estado: 0,
+    };
+    (tarea.descripcion_tarea = this.form.value.descripcion),
+      (tarea.id_tarea = 0),
+      (tarea.nombre_tarea = this.form.value.nombre_tarea),
+      (tarea.id_estado = 1),
+      this._tareasService.agregarTarea(tarea).subscribe();
   }
 
   drop(event: CdkDragDrop<ToDo[]>) {
@@ -102,7 +128,6 @@ export class DetboardComponent implements OnInit {
 
   agregarColumna() {
     this.cantidadColumnas = this.columnas.length + 1;
-    console.log(this.cantidadColumnas);
     if (this.cantidadColumnas <= 6) {
       this.columnas.push({
         titulo: 'Nueva columna',
@@ -128,12 +153,9 @@ export class DetboardComponent implements OnInit {
   }
 
   cargarTareas(id_usuario: number) {
-    this._tareasService;
     this._estadoService
       .getEstadosPorUsuario(id_usuario)
       .subscribe((respuesta) => {
-        console.log(respuesta);
-
         this.listaColumnas = respuesta;
         for (let [index, col] of this.listaColumnas.entries()) {
           let columnaTemp: Columnas = {
@@ -141,21 +163,18 @@ export class DetboardComponent implements OnInit {
             todos: [],
           };
           columnaTemp.titulo = col.titulo;
-          console.log(index, col.id_estado);
-          console.log(col.titulo);
           this._tareasService
             .getTareasPorId(col.id_estado)
             .subscribe((respuesta) => {
-              console.log(respuesta);
               this.listaTareas = respuesta;
               for (let [inde, tarea] of this.listaTareas.entries()) {
                 columnaTemp.todos.push(tarea);
-                console.log(index, col.id_estado);
               }
             });
           this.columnas.push(columnaTemp);
         }
-        console.log(this.columnas);
       });
   }
+
+  crearTarea() {}
 }

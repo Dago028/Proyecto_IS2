@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Tarea } from '../modelos/tarea.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,5 +18,9 @@ export class TareasService {
 
   getTareasPorId(idEstado: number) {
     return this.http.get(this.API + '?obtenerTareasPorId=' + idEstado);
+  }
+
+  agregarTarea(tarea: Tarea): Observable<any> {
+    return this.http.post(this.API + '?insertarTarea', tarea);
   }
 }

@@ -25,4 +25,41 @@
     </div>
 </div>
 
-<a class="btn-flotante" data-bs-toggle="modal" data-bs-target="#verPago">Nueva tarea</a>
+<a class="btn-flotante" onclick="window.modal.showModal();">Nueva tarea</a>
+
+<dialog id="modal">
+    <div class="container">
+        <form [formGroup]="form" (ngSubmit)="guardarTarea()">
+            <div class="input-group mb-3">
+                <mdb-form-control>
+                    <input mdbInput type="text" id="nombre_tarea" class="form-control form-control-lg"
+                        formControlName="nombre_tarea" required />
+                    <label mdbLabel class="form-label" for="nombre_tarea">Nombre de Tarea</label>
+                </mdb-form-control>
+            </div>
+            <div class="input-group mb-3">
+                <mdb-form-control>
+                    <textarea mdbInput class="form-control" id="descripcion" rows="4" formControlName="descripcion"
+                        required></textarea>
+                    <label mdbLabel class="form-label" for="descripcion">Descripción</label>
+                </mdb-form-control>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md">
+                        <button type="submit" [disabled]="form.invalid" class="btn btn-primary mt-4">Guardar</button>
+                    </div>
+                    <div class="col-md">
+
+                    </div>
+                    <div class="col-md">
+                        <button type="button" onclick="window.modal.close();"
+                            class="btn btn-danger mt-4">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</dialog>
