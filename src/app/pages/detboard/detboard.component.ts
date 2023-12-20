@@ -13,8 +13,9 @@ import { Dialog } from '@angular/cdk/dialog';
 import { DialogosComponent } from '../../components/dialogos/dialogos.component';
 import { TareasService } from 'src/app/servicios/tareas.service';
 import { EstadosService } from 'src/app/servicios/estados.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgControlStatusGroup, Validators } from '@angular/forms';
 import { Tarea } from 'src/app/modelos/tarea.model';
+import { CloseScrollStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-detboard',
@@ -23,7 +24,7 @@ import { Tarea } from 'src/app/modelos/tarea.model';
 })
 export class DetboardComponent implements OnInit {
   form: FormGroup;
-
+  temp= true;
   cantidadColumnas = 0;
   estadoColumnas = true;
 
@@ -105,11 +106,14 @@ export class DetboardComponent implements OnInit {
     (tarea.descripcion_tarea = this.form.value.descripcion),
       (tarea.id_tarea = 0),
       (tarea.nombre_tarea = this.form.value.nombre_tarea),
-      (tarea.id_estado = 1),
+      (tarea.id_estado = Number(localStorage.getItem('idPrimerEstado'))),
       this._tareasService.agregarTarea(tarea).subscribe();
-  }
+      this.columnas=[];
+      this.form.reset();
+      this.cargarTareas(this.idUser);
+    }
 
-  drop(event: CdkDragDrop<ToDo[]>) {
+  drop(event: CdkDragDrop<ToDo[]>, id_estado_futuro: number) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -123,6 +127,10 @@ export class DetboardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+      console.log('id estado futuro'+id_estado_futuro);
+      console.log(event.container.data);
+      
+      
     }
   }
 
@@ -130,6 +138,7 @@ export class DetboardComponent implements OnInit {
     this.cantidadColumnas = this.columnas.length + 1;
     if (this.cantidadColumnas <= 6) {
       this.columnas.push({
+        id_estado: 0,
         titulo: 'Nueva columna',
         todos: [],
       });
@@ -153,16 +162,24 @@ export class DetboardComponent implements OnInit {
   }
 
   cargarTareas(id_usuario: number) {
+    this.temp= true;
     this._estadoService
       .getEstadosPorUsuario(id_usuario)
       .subscribe((respuesta) => {
         this.listaColumnas = respuesta;
         for (let [index, col] of this.listaColumnas.entries()) {
+
           let columnaTemp: Columnas = {
+            id_estado: 0,
             titulo: '',
             todos: [],
           };
+          columnaTemp.id_estado = col.id_estado;
           columnaTemp.titulo = col.titulo;
+          if (this.temp) {
+            localStorage.setItem('idPrimerEstado', col.id_estado);
+            this.temp= false;
+          }
           this._tareasService
             .getTareasPorId(col.id_estado)
             .subscribe((respuesta) => {
@@ -176,5 +193,4 @@ export class DetboardComponent implements OnInit {
       });
   }
 
-  crearTarea() {}
 }

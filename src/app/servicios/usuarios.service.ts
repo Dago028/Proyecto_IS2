@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UsuariosService {
-  API: string = 'http://localhost/Proyecto_IS2/serverapi/usuarios.php';
+  API: string = 'http://localhost/serverapi/usuarios.php';
 
   constructor(private clientHttp: HttpClient) {}
 

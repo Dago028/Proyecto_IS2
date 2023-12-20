@@ -8,8 +8,8 @@ import { Tarea } from '../modelos/tarea.model';
 })
 export class TareasService {
   //API: string = 'http://192.168.100.10/serverapi/tareas.php';
-  //API: string = 'http://localhost/serverapi/tareas.php';
-  API: string = 'http://localhost/Proyecto_IS2/serverapi/tareas.php';
+  API: string = 'http://localhost/serverapi/tareas.php';
+  //API: string = 'http://localhost/Proyecto_IS2/serverapi/tareas.php';
   constructor(private http: HttpClient) {}
 
   getTareas(id_usuario: number) {
@@ -21,6 +21,6 @@ export class TareasService {
   }
 
   agregarTarea(tarea: Tarea): Observable<any> {
-    return this.http.post(this.API + '?insertarTarea', tarea);
+    return this.http.post(this.API + '?insertarTarea=1', tarea);
   }
 }

@@ -42,7 +42,7 @@ if (isset($_GET["insertarTarea"])){
     $nombre_tarea=$data->nombre_tarea;
     $descripcion_tarea=$data->descripcion_tarea;
     $id_estado=$data->id_estado;          
-    $sqlTareas = mysqli_query($conexionBD,"INSERT INTO tareas(id_tarea, nombre_tarea, descripcion_tarea, fecha_creacion_tarea, fecha_vencimiento, id_estado) VALUES (null, '$nombre_tarea', '$descripcion_tarea', NOW(), NOW(), 1); ");
+    $sqlTareas = mysqli_query($conexionBD,"INSERT INTO tareas VALUES (null, '$nombre_tarea', '$descripcion_tarea', NOW(), NOW(), $id_estado, 'demo')");
     exit();
 }
 

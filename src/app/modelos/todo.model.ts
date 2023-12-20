@@ -5,6 +5,7 @@ export interface ToDo {
 }
 
 export interface Columnas {
+    id_estado: number;
     titulo: string;
     todos: ToDo [];
 }
